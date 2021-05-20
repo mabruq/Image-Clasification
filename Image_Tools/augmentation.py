@@ -3,7 +3,7 @@
 
 # In[12]:
 
-
+import beepy as beep
 import os
 import argparse
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
@@ -68,7 +68,7 @@ for f in range(len(files)):
         
         if i>args.multiplier:
             break
-
+beep.beep(sound="ping")
 
 # In[ ]:
 
