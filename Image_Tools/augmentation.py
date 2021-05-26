@@ -27,8 +27,8 @@ dir=args.dir
 # In[3]:
 
 
-files=os.listdir(dir)
-files.sort()
+folders=os.listdir(dir)
+folders.sort()
 
 
 # In[4]:
@@ -49,25 +49,28 @@ datagen = ImageDataGenerator(
 
 # In[10]:
 
-
-for f in range(len(files)):
-    f_name=dir+files[f]
-    img=load_img(f_name)
-    x=img_to_array(img)
-    x=x.reshape((1,)+x.shape)
-    
-    fn=files[f]
-    fn=fn.replace('.jpeg','')
-    fn=fn.replace('.jpg','')
-    fn=fn.replace('.JPG','')
-
-    i=1
-    pre="{fn}_aug{i}".format(fn=fn,i=i)
-    for batch in datagen.flow(x,batch_size=1,save_to_dir=dir,save_prefix=pre,save_format='jpeg'):
-        i+=1
+for folder in folders:
+    files=os.listdir(dir+folder+"/")
+    files.sort()
+    n_dir=dir+folder+"/"
+    for file in files:
+        f_name=n_dir+file
+        img=load_img(f_name)
+        x=img_to_array(img)
+        x=x.reshape((1,)+x.shape)
         
-        if i>args.multiplier:
-            break
+        fn=file
+        fn=fn.replace('.jpeg','')
+        fn=fn.replace('.jpg','')
+        fn=fn.replace('.JPG','')
+
+        i=1
+        pre="{fn}_aug{i}".format(fn=fn,i=i)
+        for batch in datagen.flow(x,batch_size=1,save_to_dir=n_dir,save_prefix=pre,save_format='jpg'):
+            i+=1
+            
+            if i>args.multiplier:
+                break
 beep.beep(sound="ping")
 
 # In[ ]:
